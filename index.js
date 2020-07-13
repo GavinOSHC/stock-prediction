@@ -99,12 +99,14 @@ const main = async () => {
     // log: (stats) => console.log(stats),
   });
 
-  const result = neuralNetwork.run(trainingData[0]);
+  //   const result = neuralNetwork.run(trainingData[0]);
+  const result = neuralNetwork.forecast(
+    [trainingData[9][3], trainingData[9][4]],
+    1
+  );
 
-  const denormaliseResult = denormaliseData(
-    result,
-    normaliseLowValue,
-    normaliseHighValue
+  const denormaliseResult = result.map((item) =>
+    denormaliseData(item, normaliseLowValue, normaliseHighValue)
   );
 
   console.log(denormaliseResult);
