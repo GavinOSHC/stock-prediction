@@ -3,7 +3,7 @@ const csvtojson = require("csvtojson");
 
 // GET DATA FROM CSV FILE
 const data = async () => {
-  const csvFilePath = "./data/EURUSD_M30.csv";
+  const csvFilePath = "./data/EURUSDmain.csv";
   return await csvtojson().fromFile(csvFilePath);
 };
 
@@ -73,18 +73,17 @@ const main = async () => {
   );
 
   // TRAINING DATA SPLIT INTO A 2D ARRAY WITH 5 ITEMS
-  const trainingData = [
-    normalisedStockData.slice(0, 5),
-    normalisedStockData.slice(5, 10),
-    normalisedStockData.slice(10, 15),
-    normalisedStockData.slice(15, 20),
-    normalisedStockData.slice(20, 25),
-    normalisedStockData.slice(25, 30),
-    normalisedStockData.slice(30, 35),
-    normalisedStockData.slice(35, 40),
-    normalisedStockData.slice(40, 45),
-    normalisedStockData.slice(45, 50),
-  ];
+  const generateTrainingData = (data, setSize) => {
+    var newData = [];
+
+    for (let i = 0; i < data.length; i += setSize) {
+      newData.push(data.slice(i, i + setSize));
+    }
+
+    return newData;
+  };
+
+  const trainingData = generateTrainingData(normalisedStockData, 5);
 
   // SET UP NEURAL NETWORK
   const neuralNetwork = new brain.recurrent.LSTMTimeStep({
@@ -101,8 +100,14 @@ const main = async () => {
 
   //   const result = neuralNetwork.run(trainingData[0]);
   const result = neuralNetwork.forecast(
-    [trainingData[9][3], trainingData[9][4]],
-    1
+    [
+      trainingData[9][0],
+      trainingData[9][1],
+      trainingData[9][2],
+      trainingData[9][3],
+      trainingData[9][4],
+    ],
+    5
   );
 
   const denormaliseResult = result.map((item) =>
