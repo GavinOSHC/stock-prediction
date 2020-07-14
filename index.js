@@ -3,7 +3,7 @@ const csvtojson = require("csvtojson");
 
 // GET DATA FROM CSV FILE
 const data = async () => {
-  const csvFilePath = "./data/EURUSDmain.csv";
+  const csvFilePath = "./data/USDJPY.csv";
   return await csvtojson().fromFile(csvFilePath);
 };
 
