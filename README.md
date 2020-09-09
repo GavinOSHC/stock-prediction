@@ -1,5 +1,10 @@
 # Stock Market Prediction using Brain JS
 
+## The data
+
+Get data from MT5/4 export to csv
+Time frame of pips must be from latest to earlier meaning the newest pip is the last row in the data
+
 ### To install
 
 1. Git Clone
